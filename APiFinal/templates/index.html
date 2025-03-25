@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeFlix</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background-color: #141414;
+            color: white;
+            transition: background 0.3s;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #222;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .search-bar input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 10px;
+            background: transparent;
+            color: white;
+            font-size: 16px;
+        }
+        .search-bar button {
+            background: red;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .anime-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .anime-card {
+            background: #222;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .anime-card:hover {
+            transform: scale(1.05);
+        }
+        .anime-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .anime-info {
+            padding: 10px;
+            text-align: center;
+        }
+        .anime-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .toggle-theme {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            background: yellow;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        @media (max-width: 768px) {
+            .anime-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            .anime-card img {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AnimeFlix</h1>
+        <button class="toggle-theme" onclick="toggleTheme()">DayMode</button>
+        <div class="search-bar">
+            <input type="text" id="anime-name" placeholder="Buscar un anime...">
+            <button id="search-btn">Buscar</button>
+        </div>
+        <div class="anime-list" id="anime-list">
+            <!-- Aquí se cargarán los animes -->
+        </div>
+    </div>
+    <script>
+        document.getElementById('search-btn').addEventListener('click', function() {
+            const animeName = document.getElementById('anime-name').value;
+    
+            fetch(`/anime?title=${animeName}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('anime-list');
+                    resultDiv.innerHTML = '';
+    
+                    if (data.error) {
+                        resultDiv.innerHTML = '<div class="alert alert-danger">No se encontró información para este anime.</div>';
+                        return;
+                    }
+    
+                    const card = document.createElement('div');
+                    card.classList.add('anime-card');
+                    card.innerHTML = `
+                        <img src="${data.image}" alt="${data.title}">
+                        <div class="anime-info">
+                            <h3 class="anime-title">${data.title}</h3>
+                            <p>${data.description}</p>
+                            <p><strong>Fuentes:</strong></p>
+                            <ul>
+                                <li>AniList: ${data.sources.AniList.title.english || 'No disponible'}</li>
+                                <li>Kitsu: ${data.sources.Kitsu.attributes.canonicalTitle || 'No disponible'}</li>
+                                <li>GogoAnime: ${data.sources.GogoAnime || 'No disponible'}</li>
+                            </ul>
+                        </div>
+                    `;
+                    resultDiv.appendChild(card);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const resultDiv = document.getElementById('anime-list');
+                    resultDiv.innerHTML = '<div class="alert alert-danger">Error al buscar anime. Intenta de nuevo.</div>';
+                });
+        });
+    </script>
+    
+</body>
+</html>
