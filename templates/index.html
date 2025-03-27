@@ -113,6 +113,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
+        /* Estilos para las cards (vista por defecto) */
         .card {
             background-color: var(--secondary-color);
             border: none;
@@ -165,6 +166,40 @@
             background-color: rgba(0, 0, 0, 0.2);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding: 1rem 1.5rem;
+        }
+        
+        /* Estilos para la vista de lista */
+        .list-view .card {
+            flex-direction: row !important;
+            height: auto;
+        }
+        
+        .list-view .card-img-container {
+            width: 120px;
+            height: 180px;
+            flex-shrink: 0;
+        }
+        
+        .list-view .card-body {
+            padding: 1rem;
+        }
+        
+        .list-view .card-title {
+            margin-bottom: 0.5rem;
+        }
+        
+        .list-view .synopsis {
+            -webkit-line-clamp: 2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .list-view .card-footer {
+            display: none;
+        }
+        
+        .list-view .badge-custom {
+            margin-bottom: 0;
+            font-size: 0.8rem;
         }
         
         .section-title {
@@ -273,6 +308,110 @@
             margin-bottom: 1rem;
         }
         
+        /* Estilos para el menú desplegable de animes populares */
+        .dropdown-anime {
+            margin-left: 15px;
+        }
+        
+        .dropdown-menu-anime {
+            background-color: var(--secondary-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 250px;
+        }
+        
+        .dropdown-item-anime {
+            color: var(--light-text);
+            padding: 0.5rem 1.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-item-anime:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .dropdown-header-anime {
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Estilos para el switch de vista */
+        .view-toggle {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            margin-right: 15px;
+        }
+        
+        .view-toggle-label {
+            margin-right: 10px;
+            color: var(--light-text);
+            font-weight: 500;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--secondary-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        .slider i {
+            position: absolute;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .slider i.fa-th {
+            left: 8px;
+            top: 8px;
+        }
+        
+        .slider i.fa-list {
+            right: 8px;
+            top: 8px;
+        }
+        
         @media (max-width: 768px) {
             .search-title {
                 font-size: 2rem;
@@ -284,6 +423,22 @@
             
             .about-section {
                 padding: 2rem 1rem;
+            }
+            
+            .dropdown-anime {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            
+            .view-toggle {
+                margin: 10px 0;
+                justify-content: flex-end;
+                width: 100%;
+            }
+            
+            .list-view .card-img-container {
+                width: 100px;
+                height: 150px;
             }
         }
     </style>
@@ -320,6 +475,26 @@
                             <i class="fas fa-info-circle mr-1"></i> Acerca de
                         </a>
                     </li>
+                    
+                    <!-- Menú desplegable de animes populares -->
+                    <li class="nav-item dropdown dropdown-anime">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-fire mr-1"></i> Animes Populares
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-anime dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <h6 class="dropdown-header dropdown-header-anime">Recomendaciones</h6>
+                            <a class="dropdown-item dropdown-item-anime" href="#">Attack on Titan</a>
+                            <a class="dropdown-item dropdown-item-anime" href="#">Fullmetal Alchemist: Brotherhood</a>
+                            <a class="dropdown-item dropdown-item-anime" href="#">One Piece</a>
+                            <a class="dropdown-item dropdown-item-anime" href="#">Hunter x Hunter</a>
+                            <a class="dropdown-item dropdown-item-anime" href="#">Death Note</a>
+                            <a class="dropdown-item dropdown-item-anime" href="#">Cowboy Bebop</a>
+                            <a class="dropdown-item dropdown-item-anime" href="#">Dragon Ball Z</a>
+                            <a class="dropdown-item dropdown-item-anime" href="#">Steins;Gate</a>
+                            <a class="dropdown-item dropdown-item-anime" href="#">Naruto</a>
+                            <a class="dropdown-item dropdown-item-anime" href="#">Demon Slayer</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -343,6 +518,18 @@
                         </div>
                     </div>
                 </form>
+            </div>
+
+            <!-- View Toggle -->
+            <div class="view-toggle">
+                <span class="view-toggle-label">Vista:</span>
+                <label class="switch">
+                    <input type="checkbox" id="viewToggle">
+                    <span class="slider round">
+                        <i class="fas fa-th"></i>
+                        <i class="fas fa-list"></i>
+                    </span>
+                </label>
             </div>
 
             <!-- Jikan Results -->
@@ -555,5 +742,29 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- Script para el toggle de vista -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewToggle = document.getElementById('viewToggle');
+            const jikanResults = document.getElementById('resultados-jikan');
+            const anilistResults = document.getElementById('resultados-anilist');
+            const kitsuResults = document.getElementById('resultados-kitsu');
+            
+            viewToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    // Activar vista de lista
+                    if (jikanResults) jikanResults.classList.add('list-view');
+                    if (anilistResults) anilistResults.classList.add('list-view');
+                    if (kitsuResults) kitsuResults.classList.add('list-view');
+                } else {
+                    // Activar vista de cards
+                    if (jikanResults) jikanResults.classList.remove('list-view');
+                    if (anilistResults) anilistResults.classList.remove('list-view');
+                    if (kitsuResults) kitsuResults.classList.remove('list-view');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
