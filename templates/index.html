@@ -475,6 +475,7 @@
                             <i class="fas fa-info-circle mr-1"></i> Acerca de
                         </a>
                     </li>
+
                     
                     <!-- Menú desplegable de animes populares -->
                     <li class="nav-item dropdown dropdown-anime">
@@ -565,6 +566,9 @@
                                         <a href="{{ anime.url }}" class="btn btn-danger btn-sm" target="_blank">
                                             <i class="fas fa-external-link-alt mr-1"></i> Más información
                                         </a>
+                                        <a href="/watch/jikan/{{ anime.mal_id }}" class="btn btn-primary btn-sm ml-2">
+                                            <i class="fas fa-play mr-1"></i> Ver episodios
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -650,6 +654,9 @@
                                     <div class="card-footer text-right">
                                         <a href="https://kitsu.io/anime/{{ anime_data_kitsu.id }}" class="btn btn-danger btn-sm" target="_blank">
                                             <i class="fas fa-external-link-alt mr-1"></i> Ver en Kitsu
+                                        </a>
+                                        <a href="/watch/kitsu/{{ anime_data_kitsu.id }}" class="btn btn-primary btn-sm ml-2">
+                                            <i class="fas fa-play mr-1"></i> Ver episodios
                                         </a>
                                     </div>
                                 </div>

@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <!-- Columna principal con el reproductor -->
+        <div class="col-lg-8">
+            <!-- Reproductor de video simplificado -->
+            <div class="video-container mb-3">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video id="videoPlayer" class="embed-responsive-item" controls>
+                        <source src="" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+            </div>
+            
+            <!-- Información básica del episodio -->
+            <div class="episode-info bg-dark p-3 rounded mb-3">
+                <h3 id="episodeTitle" class="text-white mb-1">Selecciona un episodio</h3>
+                <p id="episodeDescription" class="text-muted small mb-0"></p>
+            </div>
+        </div>
+        
+        <!-- Columna lateral con lista de episodios -->
+        <div class="col-lg-4">
+            <div class="episode-list-container bg-secondary p-2 rounded">
+                <h4 class="text-white mb-2 pl-2"><i class="fas fa-list mr-1"></i>Episodios</h4>
+                
+                <div class="list-group episode-list">
+                    {% for episode in episodes %}
+                    <a href="#" class="list-group-item list-group-item-action bg-dark text-white episode-item py-2"
+                       data-video="{{ episode.video_url }}"
+                       data-title="Episodio {{ episode.number }}: {{ episode.title }}"
+                       onclick="playEpisode(this)">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ episode.thumbnail }}" alt="Episodio {{ episode.number }}" class="rounded mr-2" width="50">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">Episodio {{ episode.number }}</h6>
+                                <small class="text-muted">{{ episode.title }}</small>
+                            </div>
+                            <i class="fas fa-play ml-2 text-muted"></i>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Función principal para reproducir episodios
+    function playEpisode(element) {
+        const videoPlayer = document.getElementById('videoPlayer');
+        const episodeTitle = document.getElementById('episodeTitle');
+        const episodeDescription = document.getElementById('episodeDescription');
+        
+        // Cambiar la fuente del video
+        videoPlayer.src = element.getAttribute('data-video');
+        
+        // Actualizar la información del episodio
+        episodeTitle.textContent = element.getAttribute('data-title');
+        episodeDescription.textContent = element.querySelector('small').textContent;
+        
+        // Resaltar el episodio seleccionado
+        document.querySelectorAll('.episode-item').forEach(item => {
+            item.classList.remove('active');
+            item.querySelector('.fa-play').classList.replace('text-danger', 'text-muted');
+        });
+        element.classList.add('active');
+        element.querySelector('.fa-play').classList.replace('text-muted', 'text-danger');
+        
+        // Cargar y reproducir el video
+        videoPlayer.load();
+        videoPlayer.play().catch(e => console.log("Autoplay prevented:", e));
+    }
+    
+    // Reproducir el primer episodio al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        const firstEpisode = document.querySelector('.episode-item');
+        if (firstEpisode) {
+            playEpisode(firstEpisode);
+        }
+    });
+</script>
+
+<style>
+    .video-container {
+        background-color: #000;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .episode-list {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    
+    .episode-item {
+        margin-bottom: 4px;
+        border-radius: 4px;
+        border: none;
+        transition: all 0.2s ease;
+    }
+    
+    .episode-item:hover {
+        background-color: rgba(198, 40, 40, 0.1) !important;
+    }
+    
+    .episode-item.active {
+        background-color: rgba(198, 40, 40, 0.2) !important;
+        border-left: 2px solid var(--primary-color);
+    }
+    
+    .episode-info {
+        border-left: 3px solid var(--primary-color);
+    }
+    
+    @media (max-width: 992px) {
+        .episode-list {
+            max-height: 300px;
+        }
+    }
+</style>
+{% endblock %}
