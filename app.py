@@ -1,27 +1,10 @@
-# Importa las clases y funciones necesarias de Flask
-# - Flask: Clase principal para crear la aplicación web
-# - render_template: Función para renderizar archivos HTML desde la carpeta 'templates'
-# - request: Objeto que maneja los datos de solicitudes HTTP (GET/POST)
 from flask import Flask, render_template, request
-
-# Importa la librería 'requests' para hacer peticiones HTTP a APIs externas
 import requests
 
-# Crea una instancia de la aplicación Flask
-# __name__ es una variable especial de Python que representa el nombre del módulo actual
 app = Flask(__name__)
 
 
 def get_anime_info_jikan(anime_name):
-    # """
-    # Consulta la API de Jikan (MyAnimeList) para obtener información de un anime.
-    
-    # Args:
-    #     anime_name (str): Nombre del anime a buscar.
-    
-    # Returns:
-    #     list[dict] | None: Lista de animes coincidentes en formato JSON, o None si hay error.
-    # """
     # Construye la URL de la API con el nombre del anime y el parámetro 'sfw' (Safe For Work)
     jikan_url = f"https://api.jikan.moe/v4/anime?q={anime_name}sfw"
     
@@ -37,16 +20,6 @@ def get_anime_info_jikan(anime_name):
 
 
 def get_anime_info_anilist(anime_name):
-    # """
-    # Consulta la API de AniList (GraphQL) para obtener detalles avanzados de un anime.
-    
-    # Args:
-    #     anime_name (str): Nombre del anime a buscar.
-    
-    # Returns:
-    #     dict | None: Datos del anime (títulos, descripción, imagen, estudios), o None si hay error.
-    # """
-    # Define la consulta GraphQL para obtener datos específicos
     query = """
     query ($name: String) {
       Media(search: $name) {
@@ -78,21 +51,12 @@ def get_anime_info_anilist(anime_name):
     
     # Si la respuesta es exitosa, retorna los datos del anime
     if response.status_code == 200:
-        return response.json()["data"]["Media"]  # Extrae el nodo 'Media'
+        return response.json()["data"]["Media"]
     
     return None
 
 
 def get_anime_info_kitsu(anime_name):
-    # """
-    # Consulta la API de Kitsu para obtener información básica de un anime.
-    
-    # Args:
-    #     anime_name (str): Nombre del anime a buscar.
-    
-    # Returns:
-    #     dict | None: Primer resultado de la búsqueda, o None si hay error.
-    # """
     # Construye la URL de la API con el nombre del anime
     kitsu_url = f"https://kitsu.io/api/edge/anime?filter[text]={anime_name}"
     
@@ -109,7 +73,7 @@ def get_anime_info_kitsu(anime_name):
     if response.status_code == 200:
         data = response.json()
         if data["data"]:
-            return data["data"][0]  # Retorna el primer resultado
+            return data["data"][0] 
     
     return None
 
@@ -117,11 +81,6 @@ def get_anime_info_kitsu(anime_name):
 # Define la ruta principal que acepta métodos GET (carga inicial) y POST (búsqueda)
 @app.route("/", methods=["GET", "POST"])
 def index():
-    # """
-    # Maneja la lógica de la página principal:
-    # - GET: Muestra el formulario de búsqueda vacío.
-    # - POST: Procesa el formulario y muestra resultados.
-    # """
     # Inicializa variables para almacenar datos de las APIs
     anime_data_jikan = None
     anime_data_anilist = None
