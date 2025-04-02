@@ -23,7 +23,7 @@ def get_anime_info_jikan(anime_name):
     #     list[dict] | None: Lista de animes coincidentes en formato JSON, o None si hay error.
     # """
     # Construye la URL de la API con el nombre del anime y el parámetro 'sfw' (Safe For Work)
-    jikan_url = f"https://api.jikan.moe/v4/anime?q={anime_name}&sfw"
+    jikan_url = f"https://api.jikan.moe/v4/anime?q={anime_name}sfw"
     
     # Realiza una petición GET a la API
     response = requests.get(jikan_url)

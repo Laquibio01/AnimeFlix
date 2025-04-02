@@ -12,8 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #c62828;
-            --primary-dark: #8e0000;
+            --primary-color: #7e57c2;  
+            --primary-dark: #5e35b1;   
+            --primary-light: #b39ddb;
             --secondary-color: #2e2e2e;
             --dark-bg: #121212;
             --light-text: #ffffff;
@@ -122,7 +123,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
-            height: 100%;
+            height: 92%;
         }
         
         .card:hover {
@@ -441,6 +442,84 @@
                 height: 150px;
             }
         }
+    /* Modo claro */
+    .light-mode {
+    background-color: white;
+    color: black;
+}
+
+.light-mode .navbar {
+    background-color: #f8f9fa !important;
+    color: black;
+}
+
+.light-mode .navbar-brand,
+.light-mode .nav-link {
+    color: black !important;
+}
+
+.light-mode .card {
+    background-color: #f8f9fa;
+    color: black;
+}
+
+.light-mode .card-title,
+.light-mode .card-text,
+.light-mode .badge-custom {
+    color: black;
+}
+
+.light-mode .card-footer {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+.light-mode .form-control {
+    background-color: #f8f9fa;
+    color: black;
+    border: 1px solid #ccc;
+}
+
+.light-mode .form-control::placeholder {
+    color: #6c757d;
+}
+
+.light-mode footer {
+    background-color: #f8f9fa;
+    color: black;
+}
+
+.light-mode footer a {
+    color: black;
+}
+
+.light-mode .dropdown-menu-anime {
+    background-color: #f8f9fa;
+    color: black;
+}
+
+.light-mode .dropdown-item-anime {
+    color: black;
+}
+
+.light-mode .dropdown-item-anime:hover {
+    background-color: black;
+    color: white;
+}    
+.light-mode .view-toggle-label {
+    color: black;
+}
+.light-mode #toggle-theme {
+    background-color: #7e57c2; 
+    color: white; 
+    border-color: #7e57c2; 
+}
+
+.light-mode #toggle-theme:hover {
+    background-color: black; 
+    color: white; 
+    border-color: black; 
+}
     </style>
 </head>
 <body>
@@ -455,6 +534,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
+                    <!-- Botón para alternar el modo -->
+                    <li class="nav-item">
+                        <button id="toggle-theme" class="btn btn-outline-light">Modo Claro</button>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#resultados-jikan">
                             <i class="fas fa-search mr-1"></i> Jikan
@@ -512,7 +595,7 @@
                         <div class="input-group">
                             <input type="text" name="anime_name" id="anime_name" class="form-control" placeholder="Escribe el nombre del anime..." required>
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-danger">
+                                <button type="submit" class="btn btn-danger" id="btn-submit">
                                     <i class="fas fa-search mr-2"></i>Buscar
                                 </button>
                             </div>
@@ -565,9 +648,6 @@
                                     <div class="card-footer text-right">
                                         <a href="{{ anime.url }}" class="btn btn-danger btn-sm" target="_blank">
                                             <i class="fas fa-external-link-alt mr-1"></i> Más información
-                                        </a>
-                                        <a href="/watch/jikan/{{ anime.mal_id }}" class="btn btn-primary btn-sm ml-2">
-                                            <i class="fas fa-play mr-1"></i> Ver episodios
                                         </a>
                                     </div>
                                 </div>
@@ -772,6 +852,21 @@
                 }
             });
         });
+        document.addEventListener('DOMContentLoaded', function () {
+        const toggleThemeButton = document.getElementById('toggle-theme');
+        const body = document.body;
+
+        toggleThemeButton.addEventListener('click', function () {
+            body.classList.toggle('light-mode');
+
+            // Cambiar el texto del botón según el modo
+            if (body.classList.contains('light-mode')) {
+                toggleThemeButton.textContent = 'Modo Oscuro';
+            } else {
+                toggleThemeButton.textContent = 'Modo Claro';
+            }
+        });
+    });
     </script>
 </body>
 </html>
